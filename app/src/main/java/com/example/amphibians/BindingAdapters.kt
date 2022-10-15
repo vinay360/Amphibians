@@ -1,0 +1,33 @@
+package com.example.amphibians
+
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.example.amphibians.network.Amphibian
+import com.example.amphibians.ui.ListFragmentDirections
+import com.example.amphibians.ui.NameAdapter
+
+@BindingAdapter("amphibianName")
+fun bindName(textView: TextView, amphibian: Amphibian?) {
+    amphibian?.let {
+        textView.text = it.name
+    }
+}
+
+@BindingAdapter("listData")
+fun bindList(recyclerView: RecyclerView, data: List<Amphibian>?) {
+    val adapter = recyclerView.adapter as NameAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("navigate")
+fun bindNav(cardView: CardView, position: Int?) {
+    position?.let {
+        cardView.setOnClickListener {
+            val action = ListFragmentDirections.actionListFragmentToDetailFragment(position)
+            cardView.findNavController().navigate(action)
+        }
+    }
+}
