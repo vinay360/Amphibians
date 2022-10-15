@@ -1,5 +1,7 @@
 package com.example.amphibians
 
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.amphibians.network.Amphibian
 import com.example.amphibians.ui.ListFragmentDirections
 import com.example.amphibians.ui.NameAdapter
+import com.example.amphibians.ui.Status
 
 @BindingAdapter("amphibianName")
 fun bindName(textView: TextView, amphibian: Amphibian?) {
@@ -28,6 +31,23 @@ fun bindNav(cardView: CardView, position: Int?) {
         cardView.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToDetailFragment(position)
             cardView.findNavController().navigate(action)
+        }
+    }
+}
+
+@BindingAdapter("status")
+fun setStatus(imageView: ImageView, status: Status) {
+    when(status) {
+        Status.LOADING -> {
+            imageView.setImageResource(R.drawable.loading_animation)
+            imageView.visibility = View.VISIBLE
+        }
+        Status.DONE -> {
+            imageView.visibility = View.GONE
+        }
+        Status.ERROR -> {
+            imageView.setImageResource(R.drawable.ic_error)
+            imageView.visibility = View.VISIBLE
         }
     }
 }
